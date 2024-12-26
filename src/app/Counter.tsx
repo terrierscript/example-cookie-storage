@@ -9,7 +9,7 @@ export const Counter = () => {
   const counter = counterCookieStorage()
   const ckx = useSyncExternalStore(counter.subscribe,
     () => counter.getValue(),
-    () => counter.getValue(ck),
+    // () => 0 // counter.getValue(ck),
   )
   return <Suspense>
     <Box>
