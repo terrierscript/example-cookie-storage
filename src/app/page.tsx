@@ -5,6 +5,7 @@ import { Box, Container } from '@mantine/core'
 import { getCookies } from 'cookies-next'
 import { cookies } from 'next/headers'
 import { Counter } from './Counter'
+import { Counter2 } from './Counter2'
 
 // const getServerCookies = async (): Promise<CookieValue> => {
 //   const response = await getCookies({ cookies })
@@ -21,7 +22,8 @@ export default async function Home() {
     <Box>
       <Container>
         <SampleComponent />
-        <Counter />
+        <Counter2 />
+        {/* <Counter /> */}
       </Container>
     </Box>
   )
