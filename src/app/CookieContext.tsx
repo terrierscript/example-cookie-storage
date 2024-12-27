@@ -15,30 +15,15 @@ export const CookieProvider: FC<PropsWithChildren<{ value: CookieValue }>> = ({ 
 
 type Listener = () => void
 
-
-// type RawCookieStorageParams = {
-//   targetKey: string,
-//   cookieOption?: SerializeOptions
-//   desirializer: undefined
-//   serializer: undefined
-// }
-// type CookieStorageParams<TValue> = TValue extends string
-//   ? RawCookieStorageParams
-//   : SerializeCookieStorageParams<TValue>
-type CookieStorageParams<TValue> = {
+type CookieStorageParams = {
   targetKey: string,
   cookieOption?: SerializeOptions
-  desirializer: (value?: string) => TValue
-  serializer: (value: TValue) => string | undefined,
 }
 
-export function useCookieStore<TValue>(params: CookieStorageParams<TValue>) {
+export function useCookieStore(params: CookieStorageParams) {
   const serverCookie = useContext(CookieContext)
   const { targetKey, cookieOption } = params
   const listeners = new Set<Listener>()
-
-  const desirializeFn = params.desirializer
-  const serializeFn = params.serializer
 
   const value = useSyncExternalStore<string | undefined>((listener: Listener) => {
     listeners.add(listener)
@@ -47,12 +32,11 @@ export function useCookieStore<TValue>(params: CookieStorageParams<TValue>) {
 
   return {
     getValue: () => {
-      return desirializeFn ? desirializeFn(value) : value
+      return value
     },
-    setValue: (value: TValue) => {
-      const serializedValue = serializeFn ? serializeFn(value) : value
-      if (serializedValue) {
-        setCookie(targetKey, serializedValue, cookieOption ?? {})
+    setValue: (value?: string) => {
+      if (value) {
+        setCookie(targetKey, value, cookieOption ?? {})
       } else {
         deleteCookie(targetKey)
       }
