@@ -14,7 +14,6 @@ export const CookieProvider: FC<PropsWithChildren<{ value: CookieValue }>> = ({ 
 }
 
 type Listener = () => void
-
 type CookieStorageParams = {
   targetKey: string,
   cookieOption?: SerializeOptions
